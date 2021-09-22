@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
 import { v4 as uuidv4 } from 'uuid';
+import { ContactListItem } from '../ContactListItem/ContactListItem';
 
 export function ContactList({ contacts, filter, deleteContact, children }) {
   return (
@@ -10,20 +11,20 @@ export function ContactList({ contacts, filter, deleteContact, children }) {
         {!filter
           ? contacts.map(contact => (
               <li key={uuidv4()}>
-                {contact.name} {contact.number}
-                <button type="button" id={contact.id} onClick={deleteContact}>
-                  Delete
-                </button>
+                <ContactListItem
+                  contact={contact}
+                  deleteContact={deleteContact}
+                />
               </li>
             ))
           : contacts
               .filter(contact => contact.name.toLowerCase().includes(filter))
               .map(contact => (
                 <li key={contact.id}>
-                  {contact.name} {contact.number}
-                  <button type="button" id={contact.id} onClick={deleteContact}>
-                    Delete
-                  </button>
+                  <ContactListItem
+                    contact={contact}
+                    deleteContact={deleteContact}
+                  />
                 </li>
               ))}
       </ul>

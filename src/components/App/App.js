@@ -1,13 +1,14 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import { Section } from '../Section/Section.jsx';
 import { InputForm } from '../InputForm/InputForm.jsx';
 import { Filter } from '../Filter/Filter.jsx';
 import { ContactList } from '../ContactList/ContactList.jsx';
+import { useLocalStorage } from '../hooks/useLocalStoraje';
 import s from './App.module.css';
 
 export function App() {
-  const [contacts, setContacts] = useState([
+  const [contacts, setContacts] = useLocalStorage('contacts', [
     { id: uuidv4(), name: 'Rosie Simpson', number: '459-12-56' },
     { id: uuidv4(), name: 'Hermione Kline', number: '443-89-12' },
     { id: uuidv4(), name: 'Eden Clements', number: '645-17-79' },
@@ -55,17 +56,6 @@ export function App() {
     setContacts([...arrayWithoutDeletedContact]);
   };
 
-  useEffect(() => {
-    const localStorageContacts = JSON.parse(localStorage.getItem('contacts'));
-    if (localStorageContacts) {
-      setContacts(localStorageContacts);
-    }
-  }, []);
-
-  useEffect(() => {
-    localStorage.setItem('contacts', JSON.stringify(contacts));
-  }, [contacts]);
-
   return (
     <div className={s.app}>
       <Section title={'Phonebook'}>
@@ -75,7 +65,9 @@ export function App() {
           filter={filter}
           deleteContact={handleDeleteContact}
         >
-          <Filter contacts={contacts} filterContact={handleFilterContact} />
+          {contacts.length > 2 && (
+            <Filter contacts={contacts} filterContact={handleFilterContact} />
+          )}
         </ContactList>
       </Section>
     </div>

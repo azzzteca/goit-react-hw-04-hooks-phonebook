@@ -2,14 +2,11 @@ import PropTypes from 'prop-types';
 import s from './Filter.module.css';
 
 export function Filter({ contacts, filterContact }) {
-  const moreTwoContacts = contacts.length > 2;
   return (
-    moreTwoContacts && (
-      <label>
-        Find contacts by name
-        <input type="text" onChange={filterContact} />
-      </label>
-    )
+    <label>
+      Find contacts by name
+      <input type="text" onChange={filterContact} />
+    </label>
   );
 }
 
