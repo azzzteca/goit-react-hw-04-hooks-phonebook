@@ -22,24 +22,22 @@ export function App() {
 
     const doubleContact = contacts.find(
       contact =>
-        evt.target.elements[0].value.toLowerCase() ===
+        evt.target.elements.name.value.toLowerCase() ===
         contact.name.toLowerCase(),
     );
 
-    if (!doubleContact) {
-      const newContact = {
-        id: uuidv4(),
-        name: evt.target.elements.name.value,
-        number: evt.target.elements.number.value,
-      };
+    if (doubleContact)
+      return alert(doubleContact.name + 'is alredy in contacts');
 
-      setContacts(prevState => [...prevState, newContact]);
-    } else {
-      alert(doubleContact.name + 'is alredy in contacts');
-    }
+    const newContact = {
+      id: uuidv4(),
+      name: evt.target.elements.name.value,
+      number: evt.target.elements.number.value,
+    };
 
-    evt.target.elements[0].value = '';
-    evt.target.elements[1].value = '';
+    setContacts([...contacts, newContact]);
+
+    evt.target.reset();
   };
 
   const handleFilterContact = evt => {
